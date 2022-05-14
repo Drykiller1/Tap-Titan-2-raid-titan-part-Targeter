@@ -7,6 +7,26 @@ SUBTRACT_LEGS = True
 SUBTRACT_ARMS = True
 
 
+def find_leg_index(titan_target_order):
+    for index, name in enumerate(titan_target_order):
+        if "Legs" in name:
+            return index
+
+
+def find_arm_index(titan_target_order):
+    for index, name in enumerate(titan_target_order):
+        if "Arms" in name:
+            return index
+
+
+def print_what_to_target():
+    global HEAD, TORSO, ARMS, LEGS, HEALTH_TARGETED
+    print(f"Health to damage: {round(HEALTH_TARGETED, 2)}")
+    print(f"Head: {HEAD}")
+    print(f"Torso: {TORSO}")
+    print(f"Arms: {ARMS}")
+    print(f"Legs: {LEGS}")
+
 def int_or_float_input(text):
     user_input = input(f"{text} ")
     try:
@@ -55,10 +75,14 @@ def remove_leg(leg_health):
     HEALTH_TARGETED -= (leg_health / 2)
 
 
-def swap_list_index(titan_parts, titan_health_values):
-    titan_parts[2], titan_parts[3] = titan_parts[3], titan_parts[2]
-    titan_health_values[2], titan_health_values[3] = titan_health_values[3], titan_health_values[2]
-    return titan_parts, titan_health_values
+def attempt_reorder_list_index(titan_target_order, titan_target_health_order):
+    arm_index, leg_index = find_arm_index(titan_target_order), find_leg_index(titan_target_order)
+    if leg_index < arm_index:
+        if titan_target_health_order[leg_index][0] == titan_target_health_order[arm_index][0]:
+            if titan_target_health_order[leg_index][1] == titan_target_health_order[arm_index][1]:
+                titan_target_order[arm_index], titan_target_order[leg_index] = titan_target_order[leg_index], titan_target_order[arm_index]
+                titan_target_health_order[arm_index], titan_target_health_order[leg_index] = titan_target_health_order[leg_index], titan_target_health_order[arm_index]
+    return titan_target_order, titan_target_health_order
 
 
 def return_titan_health_values(titan, titan_parts):
@@ -83,14 +107,12 @@ def health_armor_ratio(titan):
         values = titan[titan_parts[index]]
         newValue = (values[0] / values[1])
         new_values.append(newValue)
-    new_values, titan_parts, titan_health_values = zip(*sorted(zip(new_values, titan_parts, titan_health_values)))
-    titan_parts, titan_health_values = list(titan_parts), list(titan_health_values)
-    titan_parts.reverse()
-    titan_health_values.reverse()
-    if titan_parts[2] == "Legs" and titan_parts[3] == "Arms":
-        if titan_health_values[2][0] == titan_health_values[3][0] and titan_health_values[2][1] == titan_health_values[3][1]:
-            titan_parts, titan_health_values = swap_list_index(titan_parts, titan_health_values)
-    return titan_parts, titan_health_values
+    new_values, titan_target_order, titan_target_health_order = zip(*sorted(zip(new_values, titan_parts, titan_health_values)))
+    titan_target_order, titan_target_health_order = list(titan_target_order), list(titan_target_health_order)
+    titan_target_order.reverse()
+    titan_target_health_order.reverse()
+    titan_target_order, titan_target_health_order = attempt_reorder_list_index(titan_target_order, titan_target_health_order)
+    return titan_target_order, titan_target_health_order
 
 
 def sort_titan_targeting_order():
@@ -128,9 +150,7 @@ def parts_kill_calculator(titan_target_order, titan_target_health_order, titan_m
 
 def try_part_subtract(titan_target_order, titan_target_health_order, titan_max_health):
     global SUBTRACT_LEGS, SUBTRACT_ARMS, HEALTH_TARGETED
-    for i, name in enumerate(titan_target_order):
-        if "Arms" in name: arm_index = i
-        if "Legs" in name: leg_index = i
+    arm_index, leg_index = find_arm_index(titan_target_order), find_leg_index(titan_target_order)
     if SUBTRACT_ARMS and ARMS > 0:
         remove_hand(titan_target_health_order[arm_index])
         if titan_max_health > HEALTH_TARGETED:
@@ -145,9 +165,7 @@ def try_part_subtract(titan_target_order, titan_target_health_order, titan_max_h
 
 def try_convert_leg_for_arm(titan_target_order, titan_target_health_order, titan_max_health):
     global HEALTH_TARGETED
-    for i, name in enumerate(titan_target_order):
-        if "Arms" in name: arm_index = i
-        if "Legs" in name: leg_index = i
+    arm_index, leg_index = find_arm_index(titan_target_order), find_leg_index(titan_target_order)
     if LEGS > 0 and ARMS < 4:
         remove_leg(titan_target_health_order[leg_index])
         add_hand(titan_target_health_order[arm_index])
@@ -164,18 +182,16 @@ def main_calculator():
         try_part_subtract(titan_target_order, titan_target_health_order, titan_max_health)
     for n in range (2):
         try_convert_leg_for_arm(titan_target_order, titan_target_health_order, titan_max_health)
-    print(f"Health to damage: {round(HEALTH_TARGETED, 2)}")
-    print(f"Head: {HEAD}")
-    print(f"Torso: {TORSO}")
-    print(f"Arms: {ARMS}")
-    print(f"Legs: {LEGS}")
+    print_what_to_target()
 
 
-titan = {}
-titan_max_health = int_or_float_input(text=f"What's the titan's needed health to kill?: ")
-for key in range(4):
-    partName = titan_part(key)
-    titan[partName] = [int_or_float_input(text=f"{partName} Health: "), int_or_float_input(text=f"{partName} Armor: ")]
+titan_max_health = 150
+titan = {'Head': [50.0, 50.0], 'Torso': [50.0, 50.0], 'Arms': [50.0, 50.0], 'Legs': [50.0, 50.0]}
+# titan = {}
+# titan_max_health = int_or_float_input(text=f"What's the titan's needed health to kill?: ")
+# for key in range(4):
+#     partName = titan_part(key)
+#     titan[partName] = [int_or_float_input(text=f"{partName} Health: "), int_or_float_input(text=f"{partName} Armor: ")]
 
 
 main_calculator()
