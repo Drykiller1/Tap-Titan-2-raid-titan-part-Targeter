@@ -7,6 +7,18 @@ SUBTRACT_LEGS = True
 SUBTRACT_ARMS = True
 
 
+def int_or_float_input(text):
+    user_input = input(f"{text} ")
+    try:
+        float(user_input)
+    except ValueError:
+        print("Enter a valid number.")
+        int_or_float_input(text)
+    else:
+        float(user_input)
+        return user_input
+
+
 def add_head(head_health):
     global HEAD, HEALTH_TARGETED
     HEAD += 1
@@ -160,10 +172,10 @@ def main_calculator():
 
 
 titan = {}
-titan_max_health = float(input(f"What's the titan's needed health to kill?: "))
+titan_max_health = int_or_float_input(text=f"What's the titan's needed health to kill?: ")
 for key in range(4):
     partName = titan_part(key)
-    titan[partName] = [float(input(f"{partName} Health: ")), float(input(f"{partName} Armor: "))]
+    titan[partName] = [int_or_float_input(text=f"{partName} Health: "), int_or_float_input(text=f"{partName} Armor: ")]
 
 
 main_calculator()
