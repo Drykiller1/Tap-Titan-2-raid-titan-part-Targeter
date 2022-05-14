@@ -15,7 +15,7 @@ def int_or_float_input(text):
         print("Enter a valid number.")
         int_or_float_input(text)
     else:
-        float(user_input)
+        user_input = float(user_input)
         return user_input
 
 
