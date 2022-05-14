@@ -184,14 +184,14 @@ def main_calculator():
         try_convert_leg_for_arm(titan_target_order, titan_target_health_order, titan_max_health)
     print_what_to_target()
 
-
-titan_max_health = 150
-titan = {'Head': [50.0, 50.0], 'Torso': [50.0, 50.0], 'Arms': [50.0, 50.0], 'Legs': [50.0, 50.0]}
-# titan = {}
-# titan_max_health = int_or_float_input(text=f"What's the titan's needed health to kill?: ")
-# for key in range(4):
-#     partName = titan_part(key)
-#     titan[partName] = [int_or_float_input(text=f"{partName} Health: "), int_or_float_input(text=f"{partName} Armor: ")]
+# this is a test environment
+# titan_max_health = 150
+# titan = {'Head': [50.0, 50.0], 'Torso': [50.0, 50.0], 'Arms': [50.0, 50.0], 'Legs': [50.0, 50.0]}
+titan = {}
+titan_max_health = int_or_float_input(text=f"What's the titan's needed health to kill?: ")
+for key in range(4):
+    partName = titan_part(key)
+    titan[partName] = [int_or_float_input(text=f"{partName} Health: "), int_or_float_input(text=f"{partName} Armor: ")]
 
 
 main_calculator()
