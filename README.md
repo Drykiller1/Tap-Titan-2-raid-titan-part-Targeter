@@ -27,6 +27,6 @@ the app will calculate the most effecient parts to take down the titan down
 
 # Example
 
-!<img src="https://user-images.githubusercontent.com/100541102/168424756-a5645d4a-f967-40f9-82f8-139aaf441572.png" width="400px">
+!<img src="https://user-images.githubusercontent.com/100541102/168424756-a5645d4a-f967-40f9-82f8-139aaf441572.png" width="600px">
 
 
