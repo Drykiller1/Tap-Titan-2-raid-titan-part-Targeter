@@ -31,8 +31,8 @@ the app will calculate the most effecient parts to take down the titan down
 
 
 Input:
-"What's the titan needed heath to kill?": 252.50
-"Head Health:" 83.70
+-"What's the titan needed heath to kill?": 252.50
+-"Head Health:" 83.70
 "Head Armor:" 86.80
 "Torso Health:" 117.80
 "Torso Armor:" 151.90
