@@ -158,9 +158,7 @@ def main_calculator():
     print(f"Arms: {ARMS}")
     print(f"Legs: {LEGS}")
 
-titan = {"Head": [83.70, 86.80], "Torso": [117.80, 151.90], "Arms": [68.20, 77.50], "Legs": [68.20, 97.65]}
-# titan = {"Head": [62, 62], "Torso": [204.60, 77.50], "Arms": [93, 116.25], "Legs": [93, 116.25]} #delete after
-# titan_max_health = 310.0 #delete after
+
 titan = {}
 titan_max_health = float(input(f"What's the titan's needed health to kill?: "))
 for key in range(4):
@@ -169,3 +167,4 @@ for key in range(4):
 
 
 main_calculator()
+input('Press ENTER to exit')
