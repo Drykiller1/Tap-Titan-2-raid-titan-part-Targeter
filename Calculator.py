@@ -158,7 +158,7 @@ def try_part_subtract(titan_target_order, titan_target_health_order, titan_max_h
             SUBTRACT_ARMS = False
     if SUBTRACT_LEGS and LEGS > 0:
         remove_leg(titan_target_health_order[leg_index])
-        if titan_max_health < HEALTH_TARGETED:
+        if titan_max_health > HEALTH_TARGETED:
             add_leg(titan_target_health_order[leg_index])
             SUBTRACT_LEGS = False
 
@@ -169,7 +169,7 @@ def try_convert_leg_for_arm(titan_target_order, titan_target_health_order, titan
     if LEGS > 0 and ARMS < 4:
         remove_leg(titan_target_health_order[leg_index])
         add_hand(titan_target_health_order[arm_index])
-        if titan_max_health < HEALTH_TARGETED:
+        if titan_max_health > HEALTH_TARGETED:
             add_leg(titan_target_health_order[leg_index])
             remove_hand(titan_target_health_order[arm_index])
 
@@ -185,8 +185,8 @@ def main_calculator():
     print_what_to_target()
 
 # this is a test environment
-# titan_max_health = 150
-# titan = {'Head': [50.0, 50.0], 'Torso': [50.0, 50.0], 'Arms': [50.0, 50.0], 'Legs': [50.0, 50.0]}
+# titan_max_health = 310
+# titan = {'Head': [62.0, 62.0], 'Torso': [143.22, 54.25], 'Arms': [62.0, 77.5], 'Legs': [62.0, 77.5]}
 titan = {}
 titan_max_health = int_or_float_input(text=f"What's the titan's needed health to kill?: ")
 for key in range(4):
